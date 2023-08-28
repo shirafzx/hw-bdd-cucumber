@@ -7,6 +7,11 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  def search_tmdb
+    flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
+    redirect_to root_path
+  end
+
   def index
     @all_ratings = Movie.all_ratings
     @movies = Movie.with_ratings(ratings_list, sort_by)
