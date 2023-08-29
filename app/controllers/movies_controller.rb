@@ -7,11 +7,6 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def search_tmdb
-    flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
-    redirect_to root_path
-  end
-
   def index
     @all_ratings = Movie.all_ratings
     @movies = Movie.with_ratings(ratings_list, sort_by)
@@ -48,6 +43,16 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
+  end
+
+  def search_tmdb
+    mock_info = {title:"Inception", rating:"PG", release_date:"31-Apr-2002"}
+    if params[:movie][:title] == "Inception"
+      @movie_details = mock_info
+    else
+      flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
+      redirect_to root_path
+    end
   end
 
   private

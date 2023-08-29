@@ -17,6 +17,8 @@ module NavigationHelpers
       '/movies'
     when /^the Create New Movie page$/
       '/movies/new'
+    when /^the "Search Results" page$/
+      '/movies/search_tmdb'
     # when /^the RottenPotatoes home page$/
     #   '/movies'
 
