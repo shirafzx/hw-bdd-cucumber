@@ -10,17 +10,21 @@
   </head>
   <body>
     <%# These classes come from the Bootstrap CSS framework. %>
-    <nav class="navbar navbar-expand-lg bg-primary text-white mb-3 d-flex align-items-center justify-content-between">
-      <h1 class="title">Rotten Potatoes!</h1>
-      <div class="d-flex justify-content-center align-items-center">
-        <% if current_moviegoer %>
-          <img class="rounded-circle" src=<%= current_moviegoer.avatar_url %> >
-          <td>Current User: <%= current_moviegoer.full_name %></td>
-          <%# <%= image_tag(current_moviegoer.avatar_url)  %>
-          <%= button_to 'Logout', destroy_moviegoer_session_path, data: { turbo: "false" }, method: :delete %>
-        <% end %>
+
+    <nav class="navbar navbar-expand-lg bg-info bg-body-tertiary mb-2">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-light" href="#"><h1>Rotten Potatoes!</h1></a>
+        <div class="d-flex justify-content-center align-items-center">
+          <% if current_moviegoer %>
+            <%= image_tag(current_moviegoer.avatar_url, class: 'rounded-circle image-100 px-2') %>
+            <span class="px-2 text-light">お前は <%= current_moviegoer.full_name %></span>
+            <%= button_to 'Logout', destroy_moviegoer_session_path, class: 'btn btn-danger', data: { turbo: "false" }, method: :delete %>
+          <% end %>
+        </div>
       </div>
     </nav>
+
+    
     <div class="container">
       <%# Render "flash" messages in our application. This loads _flash.erb %>
       <%= render 'layouts/flash' %>
