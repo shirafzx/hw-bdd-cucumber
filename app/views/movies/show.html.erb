@@ -18,7 +18,22 @@
 </p>
 
 <div class="row">
+  <%= link_to 'Reviews', new_movie_reviews_path(@movie), class: 'btn btn-info col-2' %>
   <%= link_to 'Edit', edit_movie_path(@movie), class: 'btn btn-primary col-2' %>
   <%= link_to 'Delete', movie_path(@movie), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2' %>
   <%= link_to 'Back to movie list', movies_path, class: 'btn btn-primary col-2' %>
 </div>
+
+<br/>
+<h3>Reviews:</h3>
+  <% @movie.reviews.each do |review| %>
+    <% moviegoer = Moviegoer.find(review.moviegoer_id) %>
+    <hr/>
+    <h5>
+      <%= "#{moviegoer.full_name}" %>
+      give <%= "🥔"*review.potatoes%>
+    </h5>
+    <p>
+      <%= review.comments %>
+    </p>
+  <% end%>

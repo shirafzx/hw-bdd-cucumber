@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  Tmdb::Api.key(ENV['TMDB_API_KEY'])
   before_action :force_index_redirect, only: [:index]
 
   def show
@@ -46,12 +47,22 @@ class MoviesController < ApplicationController
   end
 
   def search_tmdb
-    mock_info = {title:"Inception", rating:"PG", release_date:"31-Apr-2002"}
-    if params[:movie][:title] == "Inception"
-      @movie_details = mock_info
-    else
+    # mock_info = {title:"Inception", rating:"PG", release_date:"31-Apr-2002"}
+    # if params[:movie][:title] == "Inception"
+    #   @movie_details = mock_info
+    # else
+    #   flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
+    #   redirect_to root_path
+    # end
+    movies = Tmdb::Movie.find(params[:movie][:title])
+    # puts @movies[0]
+    if movies.empty?
       flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
       redirect_to root_path
+    else
+      # flash[:notice] = "'#{movies}'"
+      @movie_details = movies[0]
+      puts movies[0].release_date
     end
   end
 
@@ -77,7 +88,6 @@ class MoviesController < ApplicationController
     params[:sort_by] || session[:sort_by] || 'id'
   end
 
-  private
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
