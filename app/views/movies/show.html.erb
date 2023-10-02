@@ -18,22 +18,43 @@
 </p>
 
 <div class="row">
-  <%= link_to 'Reviews', new_movie_reviews_path(@movie), class: 'btn btn-info col-2' %>
-  <%= link_to 'Edit', edit_movie_path(@movie), class: 'btn btn-primary col-2' %>
-  <%= link_to 'Delete', movie_path(@movie), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2' %>
-  <%= link_to 'Back to movie list', movies_path, class: 'btn btn-primary col-2' %>
+  
+  <%= link_to 'Edit', edit_movie_path(@movie), class: 'btn btn-primary col-2 mx-2' %>
+  <%= link_to 'Delete', movie_path(@movie), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2 mx-2' %>
+  <%= link_to 'Back to movie list', movies_path, class: 'btn btn-primary col-2 mx-2' %>
 </div>
 
 <br/>
-<h3>Reviews:</h3>
+<div class="d-flex">
+  <h3>Reviews&nbsp;</h3>
+  <%= link_to 'Review', new_movie_reviews_path(@movie), class: 'btn btn-info col-2' %>
+</div>
+
+
   <% @movie.reviews.each do |review| %>
     <% moviegoer = Moviegoer.find(review.moviegoer_id) %>
     <hr/>
-    <h5>
-      <%= "#{moviegoer.full_name}" %>
-      give <%= "🥔"*review.potatoes%>
-    </h5>
-    <p>
+    <div class="d-flex justify-content-start align-items-center">
+      <% if review.moviegoer.avatar_url? %>
+        <img src=<%=review.moviegoer.avatar_url%> class="rounded-circle image-100 px-2">
+      <% else%>
+        <img src="/assets/user_acc.png" class= 'rounded-circle image-100 px-2' alt="user_acc">
+      <% end%>
+      <div>
+      <% if review.moviegoer.full_name?%>
+        <h5><%= "#{review.moviegoer.full_name}" %></h5>
+      <%else%>
+        <h5><%= "#{review.moviegoer.email}" %></h5>
+      <%end%>
+        
+        <h5><%= "🥔"*review.potatoes%></h5>
+        
+      </div>
+     
+    </div>
+     <p class="px-2">
       <%= review.comments %>
     </p>
+    
+    
   <% end%>
