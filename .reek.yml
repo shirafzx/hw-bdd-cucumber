@@ -1,0 +1,17 @@
+---
+detectors:
+  IrresponsibleModule:
+    enabled: false
+
+  TooManyStatements:
+    max_statements: 5
+
+  InstanceVariableAssumption:
+    enabled: false
+  TooManyInstanceVariables:
+    max_instance_variables: 10
+
+directories:
+  "app/controllers":
+    TooManyStatements:
+      max_statements: 10

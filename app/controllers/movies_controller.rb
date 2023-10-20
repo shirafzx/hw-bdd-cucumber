@@ -14,10 +14,11 @@ class MoviesController < ApplicationController
     @ratings_to_show_hash = ratings_hash
     @sort_by = sort_by
     # remember the correct settings for next time
-    session['ratings'] = ratings_list
-    session['sort_by'] = @sort_by
+    session['ratings'], session['sort_by'] = ratings_list, @sort_by
+    # session['ratings'] = ratings_list
+    # session['sort_by'] = @sort_by
   end
-
+  
   def new
     # default: render 'new' template
   end
@@ -47,22 +48,13 @@ class MoviesController < ApplicationController
   end
 
   def search_tmdb
-    # mock_info = {title:"Inception", rating:"PG", release_date:"31-Apr-2002"}
-    # if params[:movie][:title] == "Inception"
-    #   @movie_details = mock_info
-    # else
-    #   flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
-    #   redirect_to root_path
-    # end
-    movies = Tmdb::Movie.find(params[:movie][:title])
-    # puts @movies[0]
+    movie_title = params[:movie][:title]
+    movies = Tmdb::Movie.find(movie_title)
     if movies.empty?
-      flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
+      flash[:notice] = "'#{movie_title}' was not found in TMDb."
       redirect_to root_path
     else
-      # flash[:notice] = "'#{movies}'"
       @movie_details = movies[0]
-      puts movies[0].release_date
     end
   end
 
